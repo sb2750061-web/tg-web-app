@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Web App</title>
+    <!-- Подключаем главный скрипт Telegram -->
+    <script src="https://telegram.org"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--tg-theme-bg-color, #ffffff);
+            color: var(--tg-theme-text-color, #000000);
+            text-align: center;
+            padding: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: var(--tg-theme-button-color, #2481cc);
+            color: var(--tg-theme-button-text-color, #ffffff);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Привет, Telegram Web App!</h1>
+    <p id="user-info">Загрузка данных пользователя...</p>
+    <button id="close-btn">Закрыть приложение</button>
+
+    <script>
+        // Инициализируем Telegram WebApp API
+        const tg = window.Telegram.WebApp;
+        tg.ready(); // Сообщаем TG, что приложение загрузилось
+        tg.expand(); // Разворачиваем на весь экран
+
+        // Показываем имя пользователя, если оно доступно
+        const userInfo = document.getElementById('user-info');
+        if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+            userInfo.innerText = `Привет, ${tg.initDataUnsafe.user.first_name}!`;
+        } else {
+            userInfo.innerText = "Приложение запущено вне Telegram";
+        }
+
+        // Кнопка закрытия приложения
+        document.getElementById('close-btn').addEventListener('click', () => {
+            tg.close();
+        });
+    </script>
+</body>
+</html>
